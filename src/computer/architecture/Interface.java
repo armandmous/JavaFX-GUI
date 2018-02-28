@@ -39,8 +39,8 @@ public class Interface {
     private final Separator separator1 = new Separator();
     private final Separator separator2 = new Separator();
     
-    private final Button btn1 = new Button("Go to");
-    private final Button btn2 = new Button("Go to");
+    private final Button btn1 = new Button("Apply");
+    private final Button btn2 = new Button("Apply");
     private final Button btn3 = new Button("Random Question");
     private final Button btn4 = new Button("<<");
     private final Button btn5 = new Button(">>");
@@ -295,9 +295,8 @@ public class Interface {
      */ 
     private void processBox(ComboBox<Integer> box){
         box.getItems().clear();                 // Clears the menu
-        for (int i = 1; i <= questions.getNumberOfQuestions(); i++){
+        for (int i = 1; i <= questions.getNumberOfQuestions(); i++)
             box.getItems().add(i);              // Add i to the menu
-        }
         box.getSelectionModel().selectFirst();  // Sets 1 as the first or default value
     }
     
@@ -352,7 +351,7 @@ public class Interface {
      * if last question is reached go back to question one.
      */ 
     private void forwardControl(){
-        setCount(questions.linearSearch(questions.getAnswerPool(),  a.getText()));
+        setCount(questions.linearSearch(questions.getQuestionPool(),  q.getText()));
         if (getCount() >= getLimit())    // If count reached last question
             setCount(getMin() - 1);      // Set count equal to -1
         this.count++;                    // Increment count
@@ -366,7 +365,7 @@ public class Interface {
      * first question go to the last question
      */ 
     private void backwardControl(){
-        setCount(questions.linearSearch(questions.getAnswerPool(), a.getText()));
+        setCount(questions.linearSearch(questions.getQuestionPool(), q.getText()));
         if (getCount() <= getMin())
             setCount(getLimit());
         else
@@ -382,6 +381,7 @@ public class Interface {
      */
     private void randomControl(){
         Random random = new Random();
+        
         setCount(random.nextInt(getLimit()) + getMin());
         processDisplay();
         enableDisableButtons();
@@ -579,20 +579,6 @@ public class Interface {
         }
         
         if ((obj instanceof Text) && b){
-            String txt = ((Text) obj).getText();
-            String phrase = "";
-            int wordCount = 1;
-            for (int i = 0; i < txt.length(); i++){
-                phrase = phrase.concat(Character.toString(txt.charAt(i)));
-                if(txt.charAt(i) == ' '){
-                    wordCount++;
-                    if(wordCount == 10){
-                        phrase = phrase.concat("\n\t");
-                        wordCount = 0;
-                    }
-                }            
-            }
-            ((Text) obj).setText(phrase);
             ((Text) obj).setTextAlignment(TextAlignment.JUSTIFY);
             ((Text) obj).setStyle("-fx-text-fill: white; -fx-font-family: monospace;"
                 + "-fx-font-weight: bold; -fx-font-size: 18;");
